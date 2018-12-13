@@ -61,6 +61,7 @@ public class Client
     }
 
     // create fileList for the server
+    // test
     public static ArrayList<String[]> getClientFileList(ArrayList<String[]> cFiles, String path, String cName, String sName, int sPort)
     {
         File directory = new File(path);
