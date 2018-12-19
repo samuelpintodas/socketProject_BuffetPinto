@@ -69,9 +69,8 @@ public class Client
         File[] files = directory.listFiles();
         for (File f : files) {
             cFiles.add(f.getName());
-            // test
-            int test;
-        }
+
+            int variableTest;
         return cFiles;
     }
 
