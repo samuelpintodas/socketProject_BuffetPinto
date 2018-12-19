@@ -1,10 +1,15 @@
 import com.sun.javafx.binding.StringFormatter;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -32,24 +37,36 @@ public class Server {
     // creation des infos connections
     static String serverName ="localhost";
     static ServerSocket connectionSocket;
-    static int port= 50000;
+    static ServerSocket disconnectionSocket;
+    static int portc= 50000;
+    static int portd=50001;
+    //creation d'une arraylist contenantn un vecteur ce vecteur contiendra les nom des fichier et l'ip du client
+    static List<String[]> fileList = new ArrayList<String[]>() ;
+    //creation d'une copie de sécurité de la liste des fichiers
+    static List<String[]> syncList  = Collections.synchronizedList(fileList);
 
-    public static void main(String[] args)
-    {
-        Thread loggerThread = new Thread() {
-            public void run(){
-                WriteLog();
+    public static void main(String[] args) {
+        Thread loggerThread = new Thread(() -> WriteLog());
+        loggerThread.start();
+        //Starting the server
+        try {
+            //get InetAddress of the server
+            InetAddress serverAddress = InetAddress.getByName(serverName);
+            //create the listening ServerSocket on port 50000
+            connectionSocket = new ServerSocket(portc, 10, serverAddress);
+            disconnectionSocket = new ServerSocket(portd, 10, serverAddress);
+            Thread clientAcceptThread = new Thread(() -> connection());
+            Thread clientDisconnectThread = new Thread(() -> disconnection());
+
+            clientDisconnectThread.start();
+            clientAcceptThread.start();
+        }
+        catch (Exception e)
+            {
+                logger.log(Level.SEVERE, e.toString());
             }
-        }
-        Thread clientAcceptThread = new Thread(){
-            connection();
-        }
-        Thread clientDisconnectThread = new Thread() {
-            disconnection();
-        }
+
     }
-
-
     public static void CreateFirstLog(){
         //creation d'un gestionnaire de fichier pour les logs
         try{
@@ -66,10 +83,95 @@ public class Server {
     //methode pour gérer les déconnection du server
     public static void disconnection(){
 
+        while(true) {
+            try {
+                Socket disconnectClientSocket = disconnectionSocket.accept();
+
+                //Creer un nouveau thread pour le client
+                //si le client deco les fichier n'apparaisse plus
+                Thread clientThread = new Thread() {
+                    @Override
+                    public void run() {
+                        InetAddress disconnectClientAddress = disconnectClientSocket.getInetAddress();
+                        String disconnectClientName = disconnectClientAddress.getHostAddress();
+                        for (int i = 0; i < syncList.size(); i++) {
+                            if (syncList.get(i)[0].equals(disconnectClientName)) {
+                                syncList.remove(i);
+                                i--;
+                            }
+                        }
+
+                        logger.log(Level.INFO, "Client " + disconnectClientName + " has disconnected");
+                    }
+                };
+                clientThread.start();
+            } catch (IOException e) {
+                {
+                    logger.log(Level.WARNING, e.toString());
+                }
+            }
+        }
+
     }
     //methode pour gérer les nouvelle conenction aux servers
     public static void connection(){
 
+        while(true)
+        {
+            //accept la connection client
+            try
+            {
+                Socket clientSocket = connectionSocket.accept() ;
+
+                //creer un thread pour le client
+                Thread clientThread = new Thread()
+                {
+                    @Override
+                    public void run()
+                    {
+                        try
+                        {
+                            ObjectInputStream inputStream ;
+                            ObjectOutputStream outputStream ;
+                            //Get l'ip du client
+                            InetAddress clientAddress = clientSocket.getInetAddress();
+                            String clientName = clientAddress.getHostAddress() ;
+                            //Liste le contenu des fichier du client
+                            List<String> clientFiles ;
+                            //Get la list des fichier clients
+                            inputStream = new ObjectInputStream(clientSocket.getInputStream()) ;
+                            clientFiles = (ArrayList<String>)inputStream.readObject();
+                            //renvoi le nb de fichier clients
+                            logger.log(Level.INFO, "Client "+clientName+" has connected with "+clientFiles.size()+" files");
+                            for (String s : clientFiles)
+                            {
+                                //get le nom du fichier
+                                String fileName = s ;
+                                if(!DisplayFile(syncList, fileName, clientName))
+                                {
+                                    //creer une array pour chauqe client avec le nom client est le nom fichier
+                                    String[] fileInfo = {clientName,fileName} ;
+                                    syncList.add(fileInfo) ;
+                                }
+                            }
+                            //envoi les fichier aux clients --> display
+                            outputStream = new ObjectOutputStream(clientSocket.getOutputStream()) ;
+                            outputStream.writeObject(fileList);
+                            outputStream.flush();
+                            //ferme la connection client
+                            clientSocket.close();
+                        }
+                        catch(Exception e)
+                        {logger.log(Level.WARNING, e.toString());}
+                    }
+                } ;
+                //démarre un thread pour le client
+                clientThread.start();
+            } catch (IOException e1)
+            {
+                {logger.log(Level.WARNING, e1.toString());}
+            }
+        }
     }
     //methode pour écrire les logs
     public static void WriteLog(){
@@ -101,6 +203,26 @@ public class Server {
                 logger.log(Level.SEVERE,e1.toString());
             }
         }
+    }
+    public static boolean DisplayFile(List<String[]> fileList, String fileName, String clientName)
+    {
+        //controle les dossier si non vide
+        if(!fileList.isEmpty())
+        {
+            //pour chaque fichier dans le dossier affiche
+            for (int i = 0; i < fileList.size(); i++)
+            {
+                //get the filename and IP address
+                String currentFileName = fileList.get(i)[1] ;
+                String currentClientName = fileList.get(i)[0] ;
+                //verify if filename and IP address match
+                if(fileName.equals(currentFileName)&&clientName.equals(currentClientName))
+                {
+                    return true ;
+                }
+            }
+        }
+        return false ;
     }
 
 
