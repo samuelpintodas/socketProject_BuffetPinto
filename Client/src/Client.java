@@ -3,8 +3,7 @@ import java.util.ArrayList;
 import java.net.*;
 import java.io.*;
 
-public class Client
-{
+public class Client {
     // Server variables
     static String serverName; // Server IP
     static int serverPort = 45000; // port used by the server
@@ -22,16 +21,14 @@ public class Client
     // Gui variables
 
     // main method
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         connexion(serverName, serverAddress, clientSocket, clientPort);
         getClientFileList(clientFiles, filePath, localName, serverName, serverPort);
     }
 
     // Etablish the connection with the server
     public static void connexion(String sName, InetAddress sAddress, Socket cSocket, int cPort) {
-        try
-        {
+        try {
             // get the IP address with the IP we've write in sName
             sAddress = InetAddress.getByName(sName);
             System.out.println("Get the address of the server : " + serverAddress);
@@ -42,19 +39,13 @@ public class Client
             System.out.println("Will read data given by server:\n");
 
 
-        }
-        catch (UnknownHostException e)
-        {
+        } catch (UnknownHostException e) {
 
             e.printStackTrace();
-        }
-        catch (ConnectException e)
-        {
+        } catch (ConnectException e) {
             System.out.println("\n cannot connect to server");
             ;
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -62,18 +53,17 @@ public class Client
 
     // create fileList for the server
     // test
-    public static ArrayList<String[]> getClientFileList(ArrayList<String[]> cFiles, String path, String cName, String sName, int sPort)
-    {
+    public static ArrayList<String[]> getClientFileList(ArrayList<String[]> cFiles, String path, String cName, String sName, int sPort) {
         File directory = new File(path);
 
         File[] files = directory.listFiles();
         for (File f : files) {
             cFiles.add(f.getName());
 
-            int variableTest;
-        return cFiles;
+            int variable;
+            return cFiles;
+        }
+
+
     }
-
-
-
 }
