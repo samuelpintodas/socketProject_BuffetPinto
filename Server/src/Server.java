@@ -32,9 +32,6 @@ public class Server {
     //creation du log secondaire il pemet d'enregistrer de bout d'action
     static  Logger log= Logger.getLogger("");
 
-    // creation d'une liste les fichier du client avec l'ip du proprietaire
-    static List<String[]> SFileList = new ArrayList<String[]>() ;
-
     // creation des infos connections
     static String serverName ="localhost";
     static ServerSocket connectionSocket;
@@ -90,21 +87,18 @@ public class Server {
 
                 //Creer un nouveau thread pour le client
                 //si le client deco les fichier n'apparaisse plus
-                Thread clientThread = new Thread() {
-                    @Override
-                    public void run() {
-                        InetAddress disconnectClientAddress = disconnectClientSocket.getInetAddress();
-                        String disconnectClientName = disconnectClientAddress.getHostAddress();
-                        for (int i = 0; i < syncList.size(); i++) {
-                            if (syncList.get(i).equals(disconnectClientName)) {
-                                syncList.remove(i);
-                                i--;
-                            }
+                Thread clientThread = new Thread(() -> {
+                    InetAddress disconnectClientAddress = disconnectClientSocket.getInetAddress();
+                    String disconnectClientName = disconnectClientAddress.getHostAddress();
+                    for (int i = 0; i < syncList.size(); i++) {
+                        if (syncList.get(i).equals(disconnectClientName)) {
+                            syncList.remove(i);
+                            i--;
                         }
-
-                        logger.log(Level.INFO, "Client " + disconnectClientName + " has disconnected");
                     }
-                };
+
+                    logger.log(Level.INFO, "Client " + disconnectClientName + " has disconnected");
+                });
                 clientThread.start();
             } catch (IOException e) {
                 {
