@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.net.*;
 import java.io.*;
-
+// Raphael est une bite
 public class Client {
     // Server variables
     static String serverName; // Server IP
@@ -23,10 +23,12 @@ public class Client {
 
     // Gui variables
 
+
     // main method
     public static void main(String[] args) {
         connexion(serverName, serverAddress, clientSocket, clientPort);
         getClientFileList(clientFiles, filePath, localName, serverName);
+
     }
 
     // Method: Etablish the connection with the server
@@ -58,7 +60,8 @@ public class Client {
         File directory = new File(path);
 
         File[] files = directory.listFiles();
-        for (int i = 0; i < files.length; i++) {
+        for (int i = 0; i < files.length; i++)
+        {
             FileIP temp = new FileIP(files[i], cName); //create a temporary FileIP
             cFiles.add(temp); // add it to the arrayList
         }
@@ -77,10 +80,6 @@ public class Client {
         return fName;
     }
 
-    // Method: Send fileList to Server
-
-
-
     // Method: Send file to client
     public static boolean sendFile(Socket cSocket, String path, String fName) throws IOException
     {
@@ -91,7 +90,7 @@ public class Client {
         return true;
     }
 
-
+    // Method: Send fileList to Server
 
 
     // Method: Display list from server
