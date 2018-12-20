@@ -1,5 +1,6 @@
 import com.sun.javafx.binding.StringFormatter;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -41,9 +42,9 @@ public class Server {
     static int portc= 50000;
     static int portd=50001;
     //creation d'une arraylist contenantn un vecteur ce vecteur contiendra les nom des fichier et l'ip du client
-    static List<String[]> fileList = new ArrayList<String[]>() ;
+    static List<FileIP> fileList = new ArrayList<FileIP>() ;
     //creation d'une copie de sécurité de la liste des fichiers
-    static List<String[]> syncList  = Collections.synchronizedList(fileList);
+    static List<FileIP> syncList  = Collections.synchronizedList(fileList);
 
     public static void main(String[] args) {
         Thread loggerThread = new Thread(() -> WriteLog());
@@ -95,7 +96,7 @@ public class Server {
                         InetAddress disconnectClientAddress = disconnectClientSocket.getInetAddress();
                         String disconnectClientName = disconnectClientAddress.getHostAddress();
                         for (int i = 0; i < syncList.size(); i++) {
-                            if (syncList.get(i)[0].equals(disconnectClientName)) {
+                            if (syncList.get(i).equals(disconnectClientName)) {
                                 syncList.remove(i);
                                 i--;
                             }
@@ -137,22 +138,21 @@ public class Server {
                             InetAddress clientAddress = clientSocket.getInetAddress();
                             String clientName = clientAddress.getHostAddress() ;
                             //Liste le contenu des fichier du client
-                            List<String> clientFiles ;
+                            List<FileIP> clientFiles ;
                             //Get la list des fichier clients
                             inputStream = new ObjectInputStream(clientSocket.getInputStream()) ;
-                            clientFiles = (ArrayList<String>)inputStream.readObject();
+                            clientFiles = (ArrayList<FileIP>)inputStream.readObject();
                             //renvoi le nb de fichier clients
                             logger.log(Level.INFO, "Client "+clientName+" has connected with "+clientFiles.size()+" files");
-                            for (String s : clientFiles)
+                            for (FileIP file : clientFiles)
                             {
                                 //get le nom du fichier
-                                String fileName = s ;
-                                if(!DisplayFile(syncList, fileName, clientName))
-                                {
-                                    //creer une array pour chauqe client avec le nom client est le nom fichier
-                                    String[] fileInfo = {clientName,fileName} ;
+                                FileIP fileName = file ;
+
+                                    //creer une array pour chaque client avec le nom client est le nom fichier
+                                    FileIP fileInfo = new FileIP (fileName.getFile(),clientName) ;
                                     syncList.add(fileInfo) ;
-                                }
+
                             }
                             //envoi les fichier aux clients --> display
                             outputStream = new ObjectOutputStream(clientSocket.getOutputStream()) ;
@@ -204,27 +204,4 @@ public class Server {
             }
         }
     }
-    public static boolean DisplayFile(List<String[]> fileList, String fileName, String clientName)
-    {
-        //controle les dossier si non vide
-        if(!fileList.isEmpty())
-        {
-            //pour chaque fichier dans le dossier affiche
-            for (int i = 0; i < fileList.size(); i++)
-            {
-                //get the filename and IP address
-                String currentFileName = fileList.get(i)[1] ;
-                String currentClientName = fileList.get(i)[0] ;
-                //verify if filename and IP address match
-                if(fileName.equals(currentFileName)&&clientName.equals(currentClientName))
-                {
-                    return true ;
-                }
-            }
-        }
-        return false ;
-    }
-
-
-
 }
