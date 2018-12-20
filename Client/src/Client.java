@@ -14,7 +14,7 @@ public class Client {
     static int clientPort = 45001; // port used by the client
     static Socket clientSocket; // socket used by the client
     static String filePath = "datas/"; // client folder path
-    static ArrayList<String> clientFiles = new ArrayList<>(); // client files list
+    static ArrayList<FileIP> clientFiles = new ArrayList<>(); // client files list
     /* eventually disconect port here */
 
 
@@ -26,7 +26,7 @@ public class Client {
         getClientFileList(clientFiles, filePath, localName, serverName, serverPort);
     }
 
-    // Etablish the connection with the server
+    // Method: Etablish the connection with the server
     public static void connexion(String sName, InetAddress sAddress, Socket cSocket, int cPort) {
         try {
             // get the IP address with the IP we've write in sName
@@ -51,19 +51,30 @@ public class Client {
 
     }
 
-    // create fileList for the server
-    // test
-    public static ArrayList<String[]> getClientFileList(ArrayList<String[]> cFiles, String path, String cName, String sName, int sPort) {
+    // Method : create fileList for the server
+    public static ArrayList<FileIP> getClientFileList(ArrayList<FileIP> cFiles, String path, String cName, String sName, int sPort) {
         File directory = new File(path);
 
         File[] files = directory.listFiles();
-        for (File f : files) {
-            cFiles.add(f.getName());
-
-            int variable;
-            return cFiles;
+        for (int i = 0; i < files.length; i++) {
+            FileIP temp = new FileIP(files[i], localName); //create a temporary FileIP
+            cFiles.add(temp); // add it to the arrayList
         }
 
+        return cFiles;
 
     }
+
+    // Method: Send fileList to Server
+
+
+    // Method: Accept incoming connection : demander à Raph s'il comprend mieux que moi dans le code de Jon et Oli
+
+
+    // Method: Display list from server
+
+
+    // Method: Download file (called from a listner)
+
+
 }
