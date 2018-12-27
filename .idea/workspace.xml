@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a6af3fdd-c06f-4766-8026-b5a19a9a6229" name="Default Changelist" comment="delete doublon de tableau">
+    <list default="true" id="a6af3fdd-c06f-4766-8026-b5a19a9a6229" name="Default Changelist" comment="Commit : comments and FileIP">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Client.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/FileIP.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/FileIP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Server.iml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,11 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Server/src/Server.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Client/src/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-136">
-              <caret lean-forward="true" />
+            <state relative-caret-position="221">
+              <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -30,17 +33,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Client/src/FileIP.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="1" lean-forward="true" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Client/src/Client.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="19" selection-start-column="19" selection-end-column="19" />
+            <state relative-caret-position="544">
+              <caret line="45" column="30" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#569#570#0" expanded="true" />
+                <element signature="e#596#597#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -54,29 +53,38 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>mainFrame</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Client/src/Client.java" />
-        <option value="$PROJECT_DIR$/Server/src/FileIp.java" />
         <option value="$PROJECT_DIR$/Server/src/Server.java" />
-        <option value="$PROJECT_DIR$/Client/src/ClientRB.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/Client/src/FileIP.java" />
+        <option value="$PROJECT_DIR$/Client/src/Client.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="953" />
-    <option name="width" value="974" />
-    <option name="height" value="1047" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-10" />
+    <option name="y" value="-10" />
+    <option name="width" value="975" />
+    <option name="height" value="1050" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
+      <autoscrollFromSource ProjectPane="true" />
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -87,6 +95,11 @@
             <path>
               <item name="socketProject_BuffetPinto" type="b2602c69:ProjectViewProjectNode" />
               <item name="socketProject_BuffetPinto" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="socketProject_BuffetPinto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="socketProject_BuffetPinto" type="462c0819:PsiDirectoryNode" />
               <item name="Client" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -98,6 +111,20 @@
             <path>
               <item name="socketProject_BuffetPinto" type="b2602c69:ProjectViewProjectNode" />
               <item name="socketProject_BuffetPinto" type="462c0819:PsiDirectoryNode" />
+              <item name="Client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Client" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="socketProject_BuffetPinto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="socketProject_BuffetPinto" type="462c0819:PsiDirectoryNode" />
+              <item name="Client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="FileIP" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="socketProject_BuffetPinto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="socketProject_BuffetPinto" type="462c0819:PsiDirectoryNode" />
               <item name="Server" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -105,31 +132,36 @@
               <item name="socketProject_BuffetPinto" type="462c0819:PsiDirectoryNode" />
               <item name="Server" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="socketProject_BuffetPinto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="socketProject_BuffetPinto" type="462c0819:PsiDirectoryNode" />
+              <item name="Server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Server" type="1a9f42e2:ClassTreeNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545324680679" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545830016071" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="D:/Documents/HES/2ème année/semestre 1/Distributed programmation/projet/commons-io-2.6-bin/commons-io-2.6.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="" />
-    </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="" />
-    </key>
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -156,11 +188,14 @@
       <workItem from="1544099757384" duration="69000" />
       <workItem from="1544101115341" duration="1084000" />
       <workItem from="1544627141064" duration="1361000" />
-      <workItem from="1544701762820" duration="5076000" />
-      <workItem from="1545220536939" duration="5929000" />
-      <workItem from="1545306381760" duration="4910000" />
-      <workItem from="1545312466032" duration="48000" />
-      <workItem from="1545321754590" duration="2868000" />
+      <workItem from="1544701762820" duration="4339000" />
+      <workItem from="1545254685003" duration="3106000" />
+      <workItem from="1545306510663" duration="4418000" />
+      <workItem from="1545322141551" duration="4203000" />
+      <workItem from="1545377844166" duration="176000" />
+      <workItem from="1545655488215" duration="1187000" />
+      <workItem from="1545818039736" duration="3754000" />
+      <workItem from="1545822009185" duration="4672000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1544101186719</created>
@@ -169,45 +204,45 @@
       <option name="project" value="LOCAL" />
       <updated>1544101186719</updated>
     </task>
-    <task id="LOCAL-00002" summary="creationDesLogs + in variable de base server">
-      <created>1544706201382</created>
+    <task id="LOCAL-00002" summary="my commit">
+      <created>1545226013272</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1544706201382</updated>
+      <updated>1545226013272</updated>
     </task>
-    <task id="LOCAL-00003" summary="ajout des methode de connection et de déconnection + ajout d'une arrylist de sécurité">
-      <created>1545223049668</created>
+    <task id="LOCAL-00003" summary="Commit : comments and FileIP">
+      <created>1545306655702</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1545223049668</updated>
+      <updated>1545306655702</updated>
     </task>
-    <task id="LOCAL-00004" summary="changement on objet le fichier ip">
-      <created>1545310591732</created>
+    <task id="LOCAL-00004" summary="Commit : new methods:&#10;&#10;- sendFile&#10;- downloadMethod&#10;- getRequestedFile&#10;- modif on createFileList">
+      <created>1545322277822</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1545310591732</updated>
+      <updated>1545322277822</updated>
     </task>
-    <task id="LOCAL-00005" summary="delete doublon de tableau">
-      <created>1545322064345</created>
+    <task id="LOCAL-00005" summary="Commit : new methodes and adds">
+      <created>1545324510785</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1545322064346</updated>
+      <updated>1545324510785</updated>
     </task>
     <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21345000" />
+    <option name="totallyTimeSpent" value="28804000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="953" y="0" width="974" height="1047" extended-state="0" />
+    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.35886213" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21073826" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -215,17 +250,18 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.2386059" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.4989059" weight="0.33260393" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.17426273" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5010941" side_tool="true" weight="0.33260393" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Messages" order="12" visible="true" weight="0.3297587" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -242,50 +278,45 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first commit" />
-    <MESSAGE value="creationDesLogs + in variable de base server" />
-    <MESSAGE value="ajout des methode de connection et de déconnection + ajout d'une arrylist de sécurité" />
-    <MESSAGE value="changement on objet le fichier ip" />
-    <MESSAGE value="delete doublon de tableau" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete doublon de tableau" />
+    <MESSAGE value="my commit" />
+    <MESSAGE value="Commit : comments and FileIP" />
+    <MESSAGE value="Commit : new methods:&#10;&#10;- sendFile&#10;- downloadMethod&#10;- getRequestedFile&#10;- modif on createFileList" />
+    <MESSAGE value="Commit : new methodes and adds" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit : new methodes and adds" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Desktop/temp/ProjetSockets(JO)/633-2 project Oliv&amp;Jon - Client/src/client/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="54" column="48" selection-start-line="54" selection-start-column="48" selection-end-line="54" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/java/lang/Thread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8687">
-          <caret line="748" column="9" lean-forward="true" selection-start-line="748" selection-start-column="9" selection-end-line="748" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Desktop/temp/ProjetSockets(JO)/633-2 project Oliv&amp;Jon - Client/src/client/Client.java" />
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3341" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Server/src/FileIP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="21" lean-forward="true" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+        <state relative-caret-position="306">
+          <caret line="18" column="12" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Client/src/ClientRB.java">
+    <entry file="file://$PROJECT_DIR$/Server/Server.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
+        <state relative-caret-position="306">
+          <caret line="18" column="5" lean-forward="true" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Server/src/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-136">
-          <caret lean-forward="true" />
+        <state relative-caret-position="1037">
+          <caret line="79" column="64" selection-start-line="79" selection-start-column="64" selection-end-line="79" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Client/src/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -294,24 +325,93 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Client/src/FileIP.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="1" lean-forward="true" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Client/src/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="19" selection-start-column="19" selection-end-column="19" />
+        <state relative-caret-position="544">
+          <caret line="45" column="30" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#569#570#0" expanded="true" />
+            <element signature="e#596#597#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
   </component>
   <component name="masterDetails">
     <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>Client</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
       <state key="ProjectJDKs.UI">
         <settings>
           <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>commons-io-2.6</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
