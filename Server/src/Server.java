@@ -1,6 +1,6 @@
-import com.sun.javafx.binding.StringFormatter;
 
-import java.io.File;
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -40,7 +40,7 @@ public class Server {
     static int portd=50001;
     //creation d'une arraylist contenantn un vecteur ce vecteur contiendra les nom des fichier et l'ip du client
     static List<FileIP> fileList = new ArrayList<FileIP>() ;
-    //creation d'une copie de sécurité de la liste des fichiers
+    //creation d'une arraylist permettant le stockage des infos fichiers
     static List<FileIP> syncList  = Collections.synchronizedList(fileList);
 
     public static void main(String[] args) {
@@ -86,7 +86,7 @@ public class Server {
                 Socket disconnectClientSocket = disconnectionSocket.accept();
 
                 //Creer un nouveau thread pour le client
-                //si le client deco les fichier n'apparaisse plus
+                //si le client se deco les fichier n'apparaisse plus
                 Thread clientThread = new Thread(() -> {
                     InetAddress disconnectClientAddress = disconnectClientSocket.getInetAddress();
                     String disconnectClientName = disconnectClientAddress.getHostAddress();
@@ -144,7 +144,7 @@ public class Server {
                                 FileIP fileName = file ;
 
                                     //creer une array pour chaque client avec le nom client est le nom fichier
-                                    FileIP fileInfo = new FileIP (fileName.getFile(),clientName) ;
+                                    FileIP fileInfo = new FileIP (file.getName(),clientName) ;
                                     syncList.add(fileInfo) ;
 
                             }
