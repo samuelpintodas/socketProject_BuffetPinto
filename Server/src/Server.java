@@ -140,13 +140,8 @@ public class Server {
                             logger.log(Level.INFO, "Client "+clientName+" has connected with "+clientFiles.size()+" files");
                             for (FileIP file : clientFiles)
                             {
-                                //get le nom du fichier
-                                FileIP fileName = file ;
-
-                                    //creer une array pour chaque client avec le nom client est le nom fichier
-                                    FileIP fileInfo = new FileIP (file.getName(),clientName) ;
-                                    syncList.add(fileInfo) ;
-
+                                    //rajoute le fichier a la lsite des fichier du server
+                                    syncList.add(file) ;
                             }
                             //envoi les fichier aux clients --> display
                             outputStream = new ObjectOutputStream(clientSocket.getOutputStream()) ;
