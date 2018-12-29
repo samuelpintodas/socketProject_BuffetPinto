@@ -16,9 +16,6 @@ public class FileIP {
         this.IP = IP;
 
     }
-    public  FileIP(String name,String ip){
-
-    }
 
     // ----------------- Getters ---------------------------
     public String getName() {
