@@ -1,34 +1,43 @@
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.*;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.net.*;
 import java.io.*;
+import java.util.Properties;
 
 public class Client {
     // Server variables
     static String serverName; // Server IP
     static int serverPort = 45000; // port used by the server
     static InetAddress serverAddress = null;
+    static ArrayList<FileIP> serverFiles = new ArrayList<>(); // List of files received from the server
+    static ServerSocket listeningSkt;
 
     // Client variables
-    static String localName;  // Local/Client IP
+    static String localName = "127.0.0.1";  // Local/Client IP
     static int clientPort = 45001; // port used by the client
-    static int disconnectSPort = 45002; // port used by the client to disconnect himself from the server
+    static int disconnectPort = 45002; // port used by the client to disconnect himself from the server
     static Socket clientSocket; // socket used by the client
     static String filePath = "datas/"; // client folder path
     static ArrayList<FileIP> clientFiles = new ArrayList<>(); // client files list
-    /* eventually disconect port here */
+    static ArrayList<String> toDownloadList = new ArrayList<String>();
+    static FileIP infos;
 
 
     // Gui variables
+    static DefaultTableModel fileModel = new DefaultTableModel();
     static JTable filesTable = new JTable();
     static JScrollPane scrollPane = new JScrollPane(filesTable);
 
-    static JLabel selectedFile = new JLabel("");
-    static JButton downloadButton = new JButton("Donwload");
+    //static JLabel selectedFile = new JLabel("No file selected");
+    static JButton downloadButton = new JButton("No file selected ");
     static JButton refreshButton = new JButton("Refresh files");
     static JLabel folderPath = new JLabel(System.getProperty("user.dir") + filePath);
     static JFrame clientFrame = new JFrame("Client: " + localName);
@@ -38,35 +47,136 @@ public class Client {
 
     // main method
     public static void main(String[] args) {
-        connexion(serverName, serverAddress, clientSocket, clientPort);
-        getClientFileList(clientFiles, filePath, localName, serverName);
 
+        // ------------------ Start methods -----------------------------------
+        getConfigFromFile("config.properties");
+
+
+        // ------------------ GUI part -----------------------------------
+
+        // -------------Listeners
+
+        // downloadButton Listener : On click, it download the selected file
+        downloadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if(infos == null)
+                        JOptionPane.showMessageDialog(clientFrame, "Empty file: Download impossible");
+                    else
+                        {
+                        if (downloadFile(clientPort, infos, filePath))
+                            downloadButton.setText(infos.getName() + "." + infos.getExtension() + " : downloaded");
+
+                         else
+                            JOptionPane.showMessageDialog(clientFrame, "Empty file: Download impossible");
+                        }
+
+
+                } catch (ClassNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+                infos = null;
+
+                try {
+                    sendFileList(filePath, localName, serverName, serverPort);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (ClassNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+                downloadButton.setEnabled(false);
+            }
+        });
+
+        // refresh Listener : On click, it refreshes the list of files
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    serverFiles = sendFileList(filePath, localName, serverName, serverPort);
+                    configTableModel();
+
+                } catch (Exception e1) {
+                    infos = null;
+                    filesTable.clearSelection();
+                    downloadButton.setEnabled(false);
+                    JOptionPane.showMessageDialog(clientFrame, "Could not connect to server");
+                }
+                infos = null;
+                downloadButton.setText("No file selected");
+                filesTable.clearSelection();
+                downloadButton.setEnabled(false);
+            }
+        });
+
+        // WindowsListener: windowsClosing --> disconnect from server when we close the window
+        clientFrame.addWindowListener(new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent e)
+            {
+                disconnectFromServer(serverName, disconnectPort);
+            }
+        });
+
+        clientFrame.addWindowListener(new WindowAdapter() {
+        });
+
+        // -------------adding window components
+        folderPath.setPreferredSize(new Dimension(700, 20));
+        downloadButton.setEnabled(false);
+        scrollPane.setPreferredSize(new Dimension(600, 350));
+
+        northPanel.add(folderPath,BorderLayout.WEST);
+
+        southPanel.add(downloadButton, BorderLayout.CENTER);
+        southPanel.add(refreshButton, BorderLayout.EAST);
+
+        clientFrame.add(scrollPane, BorderLayout.CENTER);
+        clientFrame.add(northPanel, BorderLayout.NORTH);
+        clientFrame.add(southPanel, BorderLayout.SOUTH);
+
+        clientFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        clientFrame.pack();
+        clientFrame.setVisible(true);
+
+
+        // Starting connections
+        connexion(serverName, serverAddress, clientSocket, clientPort);
+
+    }
+
+    // Method: get config from a properties file
+    public static void getConfigFromFile(String fileName)
+    {
+        try {
+            InputStream input = new FileInputStream(fileName);
+            Properties prop = new Properties();
+            prop.load(input);
+            serverName = prop.getProperty("ServerName");
+            localName = prop.getProperty("LocalName");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(clientFrame, "No config file found");
+        }
     }
 
     // Method: Etablish the connection with the server
     public static void connexion(String sName, InetAddress sAddress, Socket cSocket, int cPort) {
         try {
-            // get the IP address with the IP we've write in
-            sAddress = InetAddress.getByName(sName);
-            System.out.println("Get the address of the server : " + serverAddress);
-
-            //get a connection to the server
-            cSocket = new Socket(sAddress, cPort);
-            System.out.println("We got the connexion to  " + sAddress);
-            System.out.println("Will read data given by server:\n");
-
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (ConnectException e) {
-            System.out.println("\n cannot connect to server");
-        } catch (IOException e) {
-            e.printStackTrace();
+            InetAddress localAddress = InetAddress.getByName(localName);
+            listeningSkt = new ServerSocket(clientPort, 5, localAddress);
+        } catch (UnknownHostException e1) {
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
         }
-
     }
 
     // Method : create fileList for the server
-    public static ArrayList<FileIP> getClientFileList(ArrayList<FileIP> cFiles, String path, String cName, String sName) {
+    public static ArrayList<FileIP> getLocalFilesList(ArrayList<FileIP> cFiles, String path, String cName, String sName) {
         File directory = new File(path);
 
         File[] files = directory.listFiles();
@@ -102,11 +212,11 @@ public class Client {
         if (!directory.exists())
             directory.mkdirs();
 
-        ArrayList<FileIP> cFiles = getClientFileList(clientFiles, path, cName, sName);
+        ArrayList<FileIP> cFiles = getLocalFilesList(clientFiles, path, cName, sName);
         ArrayList<FileIP> sList = null;
         ArrayList<FileIP> fileList = new ArrayList<FileIP>();
 
-        InetAddress serverAddress = InetAddress.getByName(serverName);
+        InetAddress serverAddress = InetAddress.getByName(sName);
         Socket serverSocket = new Socket();
 
         serverSocket.connect(new InetSocketAddress(serverAddress, sPort), 5);
@@ -173,12 +283,12 @@ public class Client {
 
 
     // Method: Disconnect the client from the server
-    public static int disconnect(String sName, int disconnectSPort) {
+    public static int disconnectFromServer(String sName, int port) {
         InetAddress serverAddress;
         try {
             serverAddress = InetAddress.getByName(serverName);
             Socket serverSocket = new Socket();
-            serverSocket.connect(new InetSocketAddress(serverAddress, disconnectSPort), 5);
+            serverSocket.connect(new InetSocketAddress(serverAddress, port), 5);
             serverSocket.close();
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -186,6 +296,44 @@ public class Client {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    // Method: config the defaultTableModel
+    public static void configTableModel()
+    {
+        fileModel.addColumn("Name");
+        fileModel.addColumn("Type");
+        fileModel.addColumn("Size");
+        fileModel.addColumn("Owner IP");
+
+        for (int i = 0; i< serverFiles.size();i++){
+            //array contenant le prenom, le nom et l'icone du contact
+            Object[] serverFilesDatas = {   serverFiles.get(i).getName(),
+                                            serverFiles.get(i).getExtension(),
+                                            serverFiles.get(i).getSize(),
+                                            serverFiles.get(i).getIP()};
+            //ajout de la ligne au modele de table
+            fileModel.addRow(serverFilesDatas) ;
+        }
+
+        filesTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                if(filesTable.getSelectedRow() == -1)
+                {
+                    return;
+                }
+                int index = filesTable.getSelectedRow();
+                infos = serverFiles.get(index);
+                downloadButton.setText("Download " + infos.getName() + "." + infos.getExtension());
+                downloadButton.setEnabled(true);
+            }
+        });
+
+        filesTable = new JTable(fileModel);
+
     }
 
 
