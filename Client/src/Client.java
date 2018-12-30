@@ -13,43 +13,41 @@ import java.io.*;
 import java.util.Properties;
 
 public class Client {
+
     // Server variables
-    static String serverName; // Server IP
-    static int serverPort = 45000; // port used by the server
-    static InetAddress serverAddress = null;
-    static ArrayList<FileIP> serverFiles = new ArrayList<>(); // List of files received from the server
-    static ServerSocket listeningSkt;
+    private static String serverName = "192.168.121.1"; // Server IP
+    private static int serverPort = 45000; // port used by the server
+    private static InetAddress serverAddress = null;
+    private static ArrayList<FileIP> serverFiles = new ArrayList<>(); // List of files received from the server
+    private static ServerSocket listeningSkt;
 
     // Client variables
-    static String localName = "127.0.0.1";  // Local/Client IP
-    static int clientPort = 45001; // port used by the client
-    static int disconnectPort = 45002; // port used by the client to disconnect himself from the server
-    static Socket clientSocket; // socket used by the client
-    static String filePath = "datas/"; // client folder path
-    static ArrayList<FileIP> clientFiles = new ArrayList<>(); // client files list
-    //static ArrayList<String> toDownloadList = new ArrayList<String>();
-    static FileIP infos;
-
+    private static String localName = "127.0.0.1";  // Local/Client IP
+    private static int clientPort = 45001; // port used by the client
+    private static int disconnectPort = 45002; // port used by the client to disconnect himself from the server
+    private static Socket clientSocket; // socket used by the client
+    private static String filePath = "datas/"; // client folder path
+    private static ArrayList<FileIP> clientFiles = new ArrayList<>(); // client files list
+    private static FileIP infos;
 
     // Gui variables
-    static DefaultTableModel fileModel = new DefaultTableModel();
-    static JTable filesTable = new JTable();
-    static JScrollPane scrollPane = new JScrollPane(filesTable);
-    static JButton downloadButton = new JButton("No file selected ");
-    static JButton refreshButton = new JButton("Refresh files");
-    static JLabel folderPath = new JLabel("Current folder: " + System.getProperty("user.dir") + "\\" + filePath.substring(0, filePath.length()-1) + "\\");
-    static JFrame clientFrame = new JFrame("Client: " + localName);
-    static JPanel northPanel = new JPanel(new BorderLayout());
-    static JPanel southPanel = new JPanel(new BorderLayout());
+    private static DefaultTableModel fileModel = new DefaultTableModel();
+    private static JTable filesTable = new JTable();
+    private static JScrollPane scrollPane = new JScrollPane(filesTable);
+    private static JButton downloadButton = new JButton("No file selected ");
+    private static JButton refreshButton = new JButton("Refresh files");
+    private static JLabel folderPath = new JLabel("Current folder: " + System.getProperty("user.dir") + "\\" + filePath.substring(0, filePath.length()-1) + "\\");
+    private static JFrame clientFrame = new JFrame("Client: " + localName);
+    private static JPanel northPanel = new JPanel(new BorderLayout());
+    private static JPanel southPanel = new JPanel(new BorderLayout());
 
 
     // main method
     public static void main(String[] args) {
 
+        // ------------------------------------------- GUI part --------------------------------------------------------
 
-        // ------------------ GUI part -----------------------------------
-
-        // -------------Listeners
+        // ------------- isteners
 
         // downloadButton Listener : On click, it download the selected file
         downloadButton.addActionListener(new ActionListener() {
@@ -111,7 +109,7 @@ public class Client {
         clientFrame.addWindowListener(new WindowAdapter() {
         });
 
-        // -------------adding window components
+        // ------------- adding window components
         folderPath.setPreferredSize(new Dimension(700, 20));
         downloadButton.setEnabled(false);
         scrollPane.setPreferredSize(new Dimension(600, 350));
@@ -130,12 +128,12 @@ public class Client {
         clientFrame.setVisible(true);
 
 
-        // ------------------ Start methods -----------------------------------
+        // ---------------------------------------- Start methods ------------------------------------------------------
         getConfigFromFile("config.properties");
         connexion(serverName, serverAddress, clientSocket, clientPort);
         startFileList(filePath, localName, serverName, serverPort);
 
-        // Thread: accept incomming connections
+        // Thread:: accept incomming connections
         Thread waitToSend = new Thread() {
             @Override
             public void run() {
@@ -176,16 +174,36 @@ public class Client {
 
     }
 
-    // Method: get config from a properties file
-    public static void getConfigFromFile(String fileName)
-    {
+    // Method: create properties file
+    public static void createConfigFile(String sName, String cName, String fileName) throws IOException {
+
+        File configFile = new File(fileName);
+
+        OutputStream outPut = new FileOutputStream(configFile);
+
+        Properties prop = new Properties();
+        prop.setProperty("ServerName", sName);
+        prop.setProperty("ClientName", cName);
+
+        prop.store(outPut, null);
+
+        outPut.close();
+    }
+
+    // Method: get the server and client IP from a .properties file
+    public static void getConfigFromFile(String fileName)  {
         try {
+
+            if(!(new File(fileName).isFile()))
+                createConfigFile(serverName, localName, fileName);
+
             InputStream input = new FileInputStream(fileName);
             Properties prop = new Properties();
             prop.load(input);
             serverName = prop.getProperty("ServerName");
-            localName = prop.getProperty("LocalName");
+            localName = prop.getProperty("ClientName");
         } catch (Exception e) {
+            // If doesn't work: show a message dialog
             JOptionPane.showMessageDialog(clientFrame, "No config file found");
         }
     }
