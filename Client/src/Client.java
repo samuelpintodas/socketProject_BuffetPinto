@@ -27,7 +27,7 @@ public class Client {
     static Socket clientSocket; // socket used by the client
     static String filePath = "datas/"; // client folder path
     static ArrayList<FileIP> clientFiles = new ArrayList<>(); // client files list
-    static ArrayList<String> toDownloadList = new ArrayList<String>();
+    //static ArrayList<String> toDownloadList = new ArrayList<String>();
     static FileIP infos;
 
 
@@ -35,11 +35,9 @@ public class Client {
     static DefaultTableModel fileModel = new DefaultTableModel();
     static JTable filesTable = new JTable();
     static JScrollPane scrollPane = new JScrollPane(filesTable);
-
-    //static JLabel selectedFile = new JLabel("No file selected");
     static JButton downloadButton = new JButton("No file selected ");
     static JButton refreshButton = new JButton("Refresh files");
-    static JLabel folderPath = new JLabel(System.getProperty("user.dir") + filePath);
+    static JLabel folderPath = new JLabel("Current folder: " + System.getProperty("user.dir") + "\\" + filePath.substring(0, filePath.length()-1) + "\\");
     static JFrame clientFrame = new JFrame("Client: " + localName);
     static JPanel northPanel = new JPanel(new BorderLayout());
     static JPanel southPanel = new JPanel(new BorderLayout());
@@ -47,9 +45,6 @@ public class Client {
 
     // main method
     public static void main(String[] args) {
-
-        // ------------------ Start methods -----------------------------------
-        getConfigFromFile("config.properties");
 
 
         // ------------------ GUI part -----------------------------------
@@ -82,7 +77,7 @@ public class Client {
                 infos = null;
 
                 try {
-                    sendFileList(filePath, localName, serverName, serverPort);
+                    createFileList(filePath, localName, serverName, serverPort);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 } catch (ClassNotFoundException e1) {
@@ -96,16 +91,7 @@ public class Client {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    serverFiles = sendFileList(filePath, localName, serverName, serverPort);
-                    configTableModel();
-
-                } catch (Exception e1) {
-                    infos = null;
-                    filesTable.clearSelection();
-                    downloadButton.setEnabled(false);
-                    JOptionPane.showMessageDialog(clientFrame, "Could not connect to server");
-                }
+                startFileList(filePath, localName, serverName, serverPort);
                 infos = null;
                 downloadButton.setText("No file selected");
                 filesTable.clearSelection();
@@ -144,8 +130,49 @@ public class Client {
         clientFrame.setVisible(true);
 
 
-        // Starting connections
+        // ------------------ Start methods -----------------------------------
+        getConfigFromFile("config.properties");
         connexion(serverName, serverAddress, clientSocket, clientPort);
+        startFileList(filePath, localName, serverName, serverPort);
+
+        // Thread: accept incomming connections
+        Thread waitToSend = new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        //accept incoming connection
+                        Socket clientSendingSkt;
+                        clientSendingSkt = listeningSkt.accept();
+                        //Create new thread for connecting client
+                        Thread sendingThread = new Thread() {
+                            @Override
+                            public void run() {
+                                //get requested file name
+                                String fileName;
+                                try {
+                                    fileName = getRequestedFileName(clientSendingSkt);
+                                    //send requested file to client
+                                    sendFiles(clientSendingSkt, filePath, fileName);
+
+                                    //close connection to client
+                                    clientSendingSkt.close();
+                                } catch (ClassNotFoundException | IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+                        //start the client thread
+                        sendingThread.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        waitToSend.start();
+
+
 
     }
 
@@ -187,7 +214,6 @@ public class Client {
         return cFiles;
     }
 
-    // Method: Accept incoming connection
 
     // Method: Get the name of the requested file
     public static String getRequestedFileName(Socket cSocket) throws IOException, ClassNotFoundException {
@@ -198,7 +224,7 @@ public class Client {
     }
 
     // Method: Send file to client
-    public static boolean sendFile(Socket cSocket, String path, String fName) throws IOException {
+    public static boolean sendFiles(Socket cSocket, String path, String fName) throws IOException {
         OutputStream ops = cSocket.getOutputStream();
         String pathFile = path + fName;
         Files.copy(Paths.get(pathFile), ops);
@@ -206,8 +232,22 @@ public class Client {
         return true;
     }
 
-    // Method: Send fileList to Server
-    public static ArrayList<FileIP> sendFileList(String path, String cName, String sName, int sPort) throws IOException, ClassNotFoundException {
+    // Method: Etablish the first fileList with the JTable
+    public static void startFileList(String path, String cName, String sName, int sPort)
+    {
+        try {
+            serverFiles = createFileList(path, cName, sName, sPort);
+            configTableModel();
+        } catch (Exception e) {
+            infos = null;
+            filesTable.clearSelection();
+            downloadButton.setEnabled(false);
+            JOptionPane.showMessageDialog(clientFrame, "Could not connect to server");
+        }
+    }
+
+    // Method: Etablish the fileList (server files list + client files list)
+    public static ArrayList<FileIP> createFileList(String path, String cName, String sName, int sPort) throws IOException, ClassNotFoundException {
         File directory = new File(path);
         if (!directory.exists())
             directory.mkdirs();
@@ -222,7 +262,7 @@ public class Client {
         serverSocket.connect(new InetSocketAddress(serverAddress, sPort), 5);
 
         ObjectOutputStream outputStream = new ObjectOutputStream(serverSocket.getOutputStream());
-        outputStream.writeObject(clientFiles);
+        outputStream.writeObject(cFiles);
         outputStream.flush();
 
         ObjectInputStream inputStream = new ObjectInputStream(serverSocket.getInputStream());
@@ -240,13 +280,6 @@ public class Client {
         }
         return fileList;
     }
-
-    // Method: Display list from server
-    /* 1: Créer la partie graphique (fenêtre, jpanel et jtable)
-       2: Récupérer la liste des fichiers que le serveur possède
-       3: L'afficher
-     */
-
 
     // Method: Download file (called from a listner)
     public static boolean downloadFile(int cPort, FileIP fip, String path) throws IOException, ClassNotFoundException, FileAlreadyExistsException {

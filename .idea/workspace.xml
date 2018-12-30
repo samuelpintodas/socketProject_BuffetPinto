@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a6af3fdd-c06f-4766-8026-b5a19a9a6229" name="Default Changelist" comment="changement de la methode  et gestion des doublons">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -16,9 +15,12 @@
       <file pinned="false" current-in-tab="true">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1284#1292#0" expanded="true" />
                 <element signature="e#4608#4764#0" expanded="true" />
                 <element signature="e#4763#4764#0" expanded="true" />
+                <element signature="e#5490#7014#0" expanded="true" />
+                <element signature="e#5906#6761#0" expanded="true" />
+                <element signature="e#6760#6761#0" expanded="true" />
+                <element signature="e#7013#7014#0" expanded="true" />
                 <element signature="e#10225#10772#0" expanded="true" />
                 <element signature="e#10771#10772#0" expanded="true" />
               </folding>
@@ -45,6 +47,8 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>mainFrame</find>
+      <find>serverSocket</find>
+      <find>send</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -94,6 +98,13 @@
               <item name="socketProject_BuffetPinto" type="462c0819:PsiDirectoryNode" />
               <item name="Client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="socketProject_BuffetPinto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="socketProject_BuffetPinto" type="462c0819:PsiDirectoryNode" />
+              <item name="Client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Client" type="1a9f42e2:ClassTreeNode" />
             </path>
             <path>
               <item name="socketProject_BuffetPinto" type="b2602c69:ProjectViewProjectNode" />
@@ -214,12 +225,6 @@
       <option name="project" value="LOCAL" />
       <updated>1545324510785</updated>
     </task>
-    <task id="LOCAL-00006" summary="changement pour correspondre a la classe Fileip">
-      <created>1545921061922</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1545921061922</updated>
     </task>
     <option name="localTasksCounter" value="7" />
     <servers />
@@ -238,7 +243,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.2386059" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49932885" visible="true" weight="0.3297587" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4986577" visible="true" weight="0.3297587" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -247,11 +252,11 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.17426273" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50067115" side_tool="true" weight="0.3297587" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5013423" side_tool="true" weight="0.3297587" />
       <window_info anchor="bottom" id="Messages" order="12" weight="0.3297587" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24966443" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Theme Preview" order="4" />
       <window_info anchor="right" id="Maven" order="5" />
@@ -269,8 +274,6 @@
     <MESSAGE value="Commit : comments and FileIP" />
     <MESSAGE value="Commit : new methods:&#10;&#10;- sendFile&#10;- downloadMethod&#10;- getRequestedFile&#10;- modif on createFileList" />
     <MESSAGE value="Commit : new methodes and adds" />
-    <MESSAGE value="changement pour correspondre a la classe Fileip" />
-    <option name="LAST_COMMIT_MESSAGE" value="changement pour correspondre a la classe Fileip" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/Desktop/temp/ProjetSockets(JO)/633-2 project Oliv&amp;Jon - Client/src/client/Client.java" />
@@ -299,14 +302,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Server/src/Server.java">
-      <provider selected="true" editor-type-id="text-editor">
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Client/src/FileIP.java">
-      <provider selected="true" editor-type-id="text-editor">
           </folding>
         </state>
       </provider>
