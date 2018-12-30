@@ -141,7 +141,7 @@ public class Client {
             public void run() {
                 while (true) {
                     try {
-                        //accept incoming  connection
+                        //accept incoming connection
                         Socket clientSendingSkt;
                         clientSendingSkt = listeningSkt.accept();
                         //Create new thread for connecting client
