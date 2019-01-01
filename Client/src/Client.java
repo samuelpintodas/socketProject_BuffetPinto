@@ -1,15 +1,13 @@
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import java.net.*;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.net.*;
-import java.io.*;
 import java.util.Properties;
 
 public class Client {
@@ -218,8 +216,8 @@ public class Client {
             listeningSkt = new ServerSocket(cPort, 5, localAddress);
         } catch (UnknownHostException e1) {
             e1.printStackTrace();
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (IOException e2) {
+            e2.printStackTrace();
         }
     }
 
