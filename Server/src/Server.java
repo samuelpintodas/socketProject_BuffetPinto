@@ -1,6 +1,4 @@
 
-import org.apache.commons.io.FilenameUtils;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -28,7 +26,7 @@ public class Server {
     // creation d'un gestionnaire de fichier
     static FileHandler fileH=null;
     // definission de format du mois pour nos logs format choisis a 2 chiffres
-    static String currentMonth = new SimpleDateFormat("MM").format(Calendar.getInstance().get(Calendar.MONTH)).replaceAll("\\." ,"");;
+    static String currentMonth = new SimpleDateFormat("MMM").format(Calendar.getInstance().get(Calendar.MONTH)).replaceAll("\\." ,"");;
     //creation du log secondaire il pemet d'enregistrer de bout d'action
     static  Logger log= Logger.getLogger("");
 
@@ -36,8 +34,8 @@ public class Server {
     static String serverName ="localhost";
     static ServerSocket connectionSocket;
     static ServerSocket disconnectionSocket;
-    static int portc= 50000;
-    static int portd=50001;
+    static int portc= 45001;
+    static int portd= 45002;
     //creation d'une arraylist contenantn un vecteur ce vecteur contiendra les nom des fichier et l'ip du client
     static List<FileIP> fileList = new ArrayList<FileIP>() ;
     //creation d'une arraylist permettant le stockage des infos fichiers
@@ -55,9 +53,9 @@ public class Server {
             disconnectionSocket = new ServerSocket(portd, 10, serverAddress);
             Thread clientAcceptThread = new Thread(() -> connection());
             Thread clientDisconnectThread = new Thread(() -> disconnection());
-
-            clientDisconnectThread.start();
             clientAcceptThread.start();
+            clientDisconnectThread.start();
+
         }
         catch (Exception e)
             {
@@ -65,7 +63,7 @@ public class Server {
             }
 
     }
-    public static void CreateFirstLog(){
+    public static void CreateLog(){
         //creation d'un gestionnaire de fichier pour les logs
         try{
             fileH=new FileHandler("ServerLogger_"+currentMonth+".log",true);
@@ -164,10 +162,10 @@ public class Server {
     }
     //methode pour écrire les logs
     public static void WriteLog(){
-        CreateFirstLog();
+        CreateLog();
         while(true)
         {
-            String tempMonth = new SimpleDateFormat("MM").format(Calendar.getInstance().get(Calendar.MONTH)).replaceAll("\\.", "") ;
+            String tempMonth = new SimpleDateFormat("MMM").format(Calendar.getInstance().get(Calendar.MONTH)).replaceAll("\\.", "") ;
             // si le mois change ajoute un log pour le signifier
             if(!tempMonth.equals(currentMonth))
             {
