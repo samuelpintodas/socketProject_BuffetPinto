@@ -15,7 +15,7 @@ import java.util.Properties;
 public class Client {
 
     // Server variables
-    private static String serverName = "192.168.121.1"; // Server IP
+    private static String serverName = "127.0.0.1"; // Server IP
     private static int serverPort = 45000; // port used by the server
     private static InetAddress serverAddress = null;
     private static ArrayList<FileIP> serverFiles = new ArrayList<>(); // List of files received from the server
@@ -47,7 +47,7 @@ public class Client {
 
         // ------------------------------------------- GUI part --------------------------------------------------------
 
-        // ------------- isteners
+        // ------------- Listeners
 
         // downloadButton Listener : On click, it download the selected file
         downloadButton.addActionListener(new ActionListener() {
@@ -106,9 +106,6 @@ public class Client {
             }
         });
 
-        clientFrame.addWindowListener(new WindowAdapter() {
-        });
-
         // ------------- adding window components
         folderPath.setPreferredSize(new Dimension(700, 20));
         downloadButton.setEnabled(false);
@@ -130,7 +127,7 @@ public class Client {
 
         // ---------------------------------------- Start methods ------------------------------------------------------
         getConfigFromFile("config.properties");
-        connexion(serverName, serverAddress, clientSocket, clientPort);
+        prepareClientSocket(localName, clientPort);
         startFileList(filePath, localName, serverName, serverPort);
 
         // Thread:: accept incomming connections
@@ -174,17 +171,20 @@ public class Client {
 
     }
 
-    // Method: create properties file
+    // Method: create the config files with the IPs
     public static void createConfigFile(String sName, String cName, String fileName) throws IOException {
 
+        // Create the file
         File configFile = new File(fileName);
 
         OutputStream outPut = new FileOutputStream(configFile);
 
         Properties prop = new Properties();
+        // set the properties for the server anc the client IP's
         prop.setProperty("ServerName", sName);
         prop.setProperty("ClientName", cName);
 
+        // store the properties on the file
         prop.store(outPut, null);
 
         outPut.close();
@@ -194,25 +194,28 @@ public class Client {
     public static void getConfigFromFile(String fileName)  {
         try {
 
+            // Check if the file exists, if not: we create it
             if(!(new File(fileName).isFile()))
                 createConfigFile(serverName, localName, fileName);
 
             InputStream input = new FileInputStream(fileName);
             Properties prop = new Properties();
             prop.load(input);
+
+            // we get the properties from the config.properties file
             serverName = prop.getProperty("ServerName");
             localName = prop.getProperty("ClientName");
         } catch (Exception e) {
             // If doesn't work: show a message dialog
-            JOptionPane.showMessageDialog(clientFrame, "No config file found");
+            JOptionPane.showMessageDialog(clientFrame, "Config.properties error");
         }
     }
 
-    // Method: Etablish the connection with the server
-    public static void connexion(String sName, InetAddress sAddress, Socket cSocket, int cPort) {
+    // Method: Prepare the clientSocket
+    public static void prepareClientSocket(String cName, int cPort) {
         try {
-            InetAddress localAddress = InetAddress.getByName(localName);
-            listeningSkt = new ServerSocket(clientPort, 5, localAddress);
+            InetAddress localAddress = InetAddress.getByName(cName);
+            listeningSkt = new ServerSocket(cPort, 5, localAddress);
         } catch (UnknownHostException e1) {
             e1.printStackTrace();
         } catch (IOException e1) {
@@ -311,10 +314,10 @@ public class Client {
             InputStream inputStream = clientSocket.getInputStream();
             ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
 
-            //send requested file name
+            //Send requested file name
             output.writeObject(fName);
 
-            //download requested file on path
+            //Download requested file on path
             try {
                 Files.copy(inputStream, Paths.get(path + fName));
             } catch (Exception e) {
@@ -337,7 +340,7 @@ public class Client {
     public static int disconnectFromServer(String sName, int port) {
         InetAddress serverAddress;
         try {
-            serverAddress = InetAddress.getByName(serverName);
+            serverAddress = InetAddress.getByName(sName);
             Socket serverSocket = new Socket();
             serverSocket.connect(new InetSocketAddress(serverAddress, port), 5);
             serverSocket.close();
